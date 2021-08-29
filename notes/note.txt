@@ -1,0 +1,104 @@
+Untuk membuat global styling perlu _app.js pada directory posts,
+kemudian import file css (yang tanpa .module)
+
+Link itu hanya untuk 'href', kalo stylingnya harus pada tag <a>
+
+NextJS punya built-in styling yaitu CSS / SASS
+
+ORIGINAL NOTE:
+1. Code splitting
+    Next.js does code splitting automatically, so each page only loads what’s necessary for that page. That means when the homepage is rendered, the code for other pages is not served initially.
+
+    This ensures that the homepage loads quickly even if you have hundreds of pages.
+
+    Only loading the code for the page you request also means that pages become isolated. If a certain page throws an error, the rest of the application would still work.
+
+    Furthermore, in a production build of Next.js, whenever Link components appear in the browser’s viewport, Next.js automatically prefetches the code for the linked page in the background. By the time you click the link, the code for the destination page will already be loaded in the background, and the page transition will be near-instant!
+
+2. Asset, metadata, css
+    a. Image 
+        (https://nextjs.org/docs/basic-features/image-optimization, https://nextjs.org/docs/api-reference/next/image)
+        Instead of optimizing images at build time, Next.js optimizes images on-demand, as users request them. Unlike static site generators and static-only solutions, your build times aren't increased, whether shipping 10 images or 10 million images.
+
+        Images are lazy loaded by default. That means your page speed isn't penalized for images outside the viewport. Images load as they are scrolled into viewport.
+
+    b. Metadata
+        If you want to customize the <html> tag, for example to add the lang attribute, you can do so by creating a pages/_document.js file. Learn more in https://nextjs.org/docs/advanced-features/custom-document.
+
+    c. CSS
+        (https://nextjs.org/learn/basics/assets-metadata-css/styling-tips)
+        Customizing PostCSS Config.
+        Out of the box, with no configuration, Next.js compiles CSS using PostCSS.
+        To customize PostCSS config, you can create a top-level file called postcss.config.js. This is useful if you’re using libraries like Tailwind CSS.
+        
+        Here are the steps to add Tailwind CSS. We recommend using postcss-preset-env and postcss-flexbugs-fixes to match Next.js’s default behavior. First, install the packages:
+
+3. Pre-rendering & data fetching
+    a. pre-rendering
+        (Please look at difference between pre-rendering vs non-pre-rendering image)
+        (https://nextjs.org/learn/basics/data-fetching/pre-rendering)
+        By default, Next.js pre-renders every page. This means that Next.js generates HTML for each page in advance, instead of having it all done by client-side JavaScript. Pre-rendering can result in better performance and SEO.
+
+        Each generated HTML is associated with minimal JavaScript code necessary for that page. When a page is loaded by the browser, its JavaScript code runs and makes the page fully interactive. (This process is called hydration.)
+
+    b. data fetching
+        fungsi async getSortedPostsData():
+        * Hanya allowed pada page, tidak bisa dipakai di non-page file.
+        * Disini kita bener2 bisa ngelakuin fetch data API.
+        * Bahkan ngelakuin query ke database!
+        This is possible because getStaticProps only runs on the server-side.
+        It will never run on the client-side. IT WONT BE INCLUDED IN JS BUNDLE
+        FOR THE BROWSER. That means you can write code such as direct database queries
+        without them being sent to browsers.
+
+        INGAT fetching data tersebut hanya dilakukan saat build-time.
+        Jadi kalo page kita bener2 dependent pada data dan perlu update data tiap request
+        maka kita pakenya server-side rendering bukan static-generators seperti ini.
+
+        Recommended dari NextJS untuk fetching data pada client-side itu pake SWR
+        (https://nextjs.org/learn/basics/data-fetching/request-time)
+
+4. Dynamic Route
+    Filenames that starts with '[' and end with ']' are dynamic routes.
+    Method getStaticPaths akan meneruskan dynamic value ke getStaticProps (cek pages/posts/[id].js). 
+    
+    * Catch all dynamic route => [...someName].js ini untuk dynamic valuenya > 1 
+        pages/posts/[...someName].js matches /posts/a, but also /posts/a/b, /posts/a/b/c and so on
+        Kalo gini nanti paths pada getStaticPaths haruslah berbentuk
+        [
+            { params: { someName: ['a', 'b', 'c'] } }, // value someName harus array
+            ...
+        ]
+        (https://nextjs.org/learn/basics/dynamic-routes/dynamic-routes-details)
+
+    * Fallback itu berhubungan dengan behaviour getStaticPaths dalam memberi path ke getStaticProps
+        (https://nextjs.org/docs/basic-features/data-fetching#the-fallback-key-required)
+
+    * Custome 404 Page => buat file /pages/404.js
+
+    * withRouter dan useRouter
+        kegunaannya sama, supaya bisa punya akses ke router. contoh:
+        import { useRouter } from 'next/router'
+        const router = useRouter()
+        router.push('some/link')
+
+5. API Route (back-end end point pada NextJS) 
+    https://nextjs.org/learn/basics/api-routes
+    Usecase nya itu buat handle POST request sepert menyimpan ke database
+    Si API ini gak akan dibundle untuk client dan browser jadi aman buat lakuin hal2 server
+
+
+Method penting di NextJS:
+1. getStaticProps => untuk mendapatkan data pada pre-rendering Static Generation
+2. getStaticPaths => untuk dynamic routing, memberi props `params` pada getStaticProps -
+                    yaitu informasi value dynamic route (lihat pages/posts/[id].js)
+3. getServerSideProps(context) => untuk mendapatkan data pada pre-rendering SSR
+
+Library yang dipakai:
+1. `gray-matter` untuk parsing metadata pada README.md
+2. `remark` untuk render markdown content
+3. `date-fns` to format the date
+
+Tag HTML baru yang dipelajari
+1. time -> gak ada apa2 cuma, kata w3school bisa ditambahin ke calendar kita
+2. small -> tulisan jadi kecil (cocok buat copyright)
