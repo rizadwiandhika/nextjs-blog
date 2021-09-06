@@ -1,15 +1,13 @@
-.container {
-  max-width: 36rem;
-  padding: 0 1rem;
-  margin: 3rem auto 6rem;
-}
+@layer components {
+  .container {
+    @apply max-w-xl pt-0 py-4 mt-12 mx-auto mb-24;
+  }
 
-.header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+  .header {
+    @apply flex flex-col items-center;
+  }
 
-.backToHome {
-  margin: 3rem 0 0;
+  .backToHome {
+    @apply mt-12 mx-0 mb-0;
+  }
 }
