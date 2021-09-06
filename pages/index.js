@@ -25,7 +25,9 @@ export default function Home({ allPostsData }) {
       </section>
 
       <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
-        <h2 className="text-2xl my-4 mx-0 font-bold">Blog</h2>
+        <h2 aria-hidden="true" className="text-2xl my-4 mx-0 font-bold">
+          Blog
+        </h2>
         <ul>
           {allPostsData.map(({ id, date, title }) => (
             <li className="my-4" key={id}>
