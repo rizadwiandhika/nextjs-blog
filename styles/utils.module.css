@@ -1,11 +1,11 @@
 @layer components {
   .heading2Xl {
-    @apply text-4xl font-extrabold tracking-tighter my-4 mx-0;
+    @apply text-4xl font-extrabold my-4 mx-0;
     /* line-height: 1.2; ??? */
   }
 
   .headingXl {
-    @apply text-3xl font-extrabold tracking-tighter my-4 mx-0;
+    @apply text-3xl font-extrabold my-4 mx-0;
     /* font-size: 2rem;
     line-height: 1.3; ??? */
   }

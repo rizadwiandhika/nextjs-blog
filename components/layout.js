@@ -52,11 +52,13 @@ export default function Layout({ children, home }) {
                 />
               </a>
             </Link>
-            <h2 className={utilStyles.headingLg}>
+            <div className="my-4">
               <Link href="/">
-                <a className={utilStyles.colorInherit}>{name}</a>
+                <a className="text-2xl my-4 mx-0 text-black font-bold">
+                  {name}
+                </a>
               </Link>
-            </h2>
+            </div>
           </>
         )}
       </header>

@@ -17,12 +17,16 @@ export default function Post({ postData }) {
       <article>
         <h1 className={utilStyles.headingXl}>{postData.title}</h1>
 
-        <div className={utilStyles.lightText}>
+        <div className="text-gray-500 my-4">
           <Date dateString={postData.date} />
         </div>
 
         {/* Cara render string HTML pake dangerouslySetInnerHTML */}
-        <div dangerouslySetInnerHTML={{ __html: postData.contentHtml }} />
+        {/* Pakai "prose" untuk render markdown. "prose" dari package @tailwindcss/typography */}
+        <div
+          className="prose"
+          dangerouslySetInnerHTML={{ __html: postData.contentHtml }}
+        />
       </article>
     </Layout>
   )
